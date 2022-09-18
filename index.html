@@ -1,0 +1,149 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id=""
+                  title=""
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="Présentation et installation de Nagios" duration="0">
+        <h2 is-upgraded><strong>Présentation</strong></h2>
+<p>L&#39;administrateur réseau d&#39;une société souhaite mettre en place un outil de supervision au sein de l&#39;entreprise.</p>
+<ol type="1" start="1">
+<li>A quoi sert un outil de supervision ?</li>
+<li>Quels sont les protocoles utilisés pour faire de la supervision ?</li>
+<li>Donner différents logiciels de supervision.</li>
+</ol>
+<h2 is-upgraded><strong>Installation de Nagios</strong></h2>
+<p>Suivez le tutoriel ci-dessous afin d&#39;installer nagios :</p>
+<p><a href="https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-source-96.html#Ubuntu" target="_blank">https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-source-96.html#Ubuntu</a></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Configuration des fichiers" duration="0">
+        <p>Les fichiers <code>cgi.cfg</code>, <code>nagios.cfg</code> et <code>resource.cfg</code> définissent la configuration « maître » de Nagios. Il sont donc à configurer avant tous les autres fichiers .cfg. Ils se trouvent dans le répertoire <code>/usr/local/nagios/etc.</code></p>
+<h2 is-upgraded><strong>Configuration de nagios.cfg</strong></h2>
+<ol type="1" start="1">
+<li>Quel est le fichier de logs ?</li>
+<li>A quoi sert l&#39;instruction <code>check_external_commands=0</code> ? Est-ce la bonne configuration ?</li>
+</ol>
+<h2 is-upgraded><strong>Configuration de cgi.cfg</strong></h2>
+<p>Nagios est basé sur une interface Web pour générer ses rapports. Cette interface Web est générée dynamiquement par des scripts CGI. Le fichier <code>cgi.cfg</code> a pour but de configurer cet interfaçage.</p>
+<ol type="1" start="3">
+<li>Rappeler le fonctionnement d&#39;un script CGI.</li>
+<li>Vérifier que l&#39;utilisateur nagiosadmin a bien les droits nécessaires.</li>
+<li>Modifier la fréquence de rafraîchissement de l&#39;écran</li>
+<li>A quoi sert la ligne <code>main_config_file=/usr/local/nagios/etc/nagios.cfg</code> ?</li>
+<li>A quoi sert la ligne <code>url_html_path=/nagios</code> ?</li>
+<li>A quoi sert la ligne <code>use_authentication=1</code> ?</li>
+<li>Quel login permet l&#39;accès ?</li>
+</ol>
+<h2 is-upgraded><strong>Configuration de resource.cfg :</strong></h2>
+<ol type="1" start="10">
+<li>Quel est le répertoire où se trouvent les plugins ?</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Démarrage du serveur :" duration="0">
+        <ol type="1" start="1">
+<li>Démarrer le serveur s&#39;il n&#39;est pas déjà démarré.</li>
+<li>Tester l&#39;interface web : http://@IPduServeur/nagios</li>
+<li>Afficher la configuration de la machine en localhost. Que se passe-t-il ? De quelle machine s&#39;agit-il ? Quel est le fichier qui permet de modifier ces informations ?</li>
+<li>Modifier ce fichier de manière à obtenir un avertissement lorsqu&#39;il reste moins de 95% d&#39;espace disponible et un état critique lorsqu&#39;il reste 90 % d&#39;espace disponible.Vérifier le fonctionnement.</li>
+<li>Y-a-t-il d&#39;autres hôtes disponibles ?</li>
+<li>Quels sont les services démarrés sur le serveur ?</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Définition des objets :" duration="0">
+        <p>Nous allons dans un premier temps superviser une machine sous windows .</p>
+<ol type="1" start="1">
+<li>Démarrer une machine sous Windows.</li>
+<li> Dans le répertoire <code>/etc/nagios3/conf.d</code>, créer le fichier <code>hosts.cfg</code> suivant :</li>
+</ol>
+<pre>define host {
+use generic-host ;Name of host Template to use
+host_name Windows
+alias client Windows
+address #@IP
+}</pre>
+<ol type="1" start="3">
+<li>Redémarrer le serveur nagios puis vérifier que l&#39;hôte apparaît sur l&#39;interface</li>
+</ol>
+<p>graphique.</p>
+<ol type="1" start="4">
+<li> De la même manière créer, une nouvelle définition pour le serveur Web de la DMZ. Vérifier que l&#39;hôte apparaît sur l&#39;interface graphique.</li>
+<li> Est-ce possible de vérifier que le service http fonctionne ?</li>
+</ol>
+<p>Nous allons désormais créer un groupe d&#39;hôtes.</p>
+<ol type="1" start="6">
+<li> Quel est l&#39;intérêt de créer un groupe d&#39;hôtes sous Nagios ?</li>
+<li> Quel est le fichier qui définit des groupes d&#39;hôtes par défaut ?</li>
+<li> Créer le fichier <code>/etc/nagios3/conf.d/hostgroups.cfg</code> et y ajouter la définition des groupes http et ftp.</li>
+<li> Vérifier que les groupes apparaissent sous l&#39;interface graphique.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Définition des services :" duration="0">
+        <p>Lorsque l&#39;on supervise un réseau, on peut vérifier l&#39;état de fonctionnement des services sur un ou plusieurs serveurs.</p>
+<p>Nous allons désormais définir quels sont les services à surveiller pour les différents hôtes.</p>
+<ol type="1" start="1">
+<li> Quel est le fichier qui définit les différents services par défaut ?</li>
+<li> A quoi correspondent les différents champs d&#39;une définition ?</li>
+<li> Pour le serveur Web de la DMZ, vérifier que le service Web fonctionne. Vérifier l&#39;affichage sur l&#39;interface graphique.</li>
+<li> Faire la même opération pour le service SSH sur le serveur de sauvegarde.</li>
+<li> Définir un service pour le routeur de manière à être informer par un warning lorsque l&#39;on perd plus de 20% des paquets ou si le temps de réponse est  &gt;100ms. On indiquera aussi que l&#39;on passe en état critical lorsqu&#39;on perd plus de 60% des paquets ou si le temps de réponse est &gt; 500ms.</li>
+<li> Quel est l&#39;intérêt d&#39;utiliser un groupe de services ?</li>
+<li> Créer le groupe de services suivant dans un fichier nommé servicesgroup.cfg :</li>
+</ol>
+<pre>#groupe de services de la DMZ
+define servicegroup {
+servicegroup_name WebDMZ
+alias Services Web DMZ
+members ServeurWeb,HTTP,Sgbd,MYSQL
+}</pre>
+<ol type="1" start="8">
+<li>Effectuer une notification par email à l&#39;intention de l&#39;administrateur réseau.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
